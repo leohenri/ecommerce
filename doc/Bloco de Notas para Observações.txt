@@ -1,3 +1,5 @@
+########################################################################################################################
+
 CRIAR DOMINIO 
 
 Para criar um dominio no servidor local.
@@ -31,34 +33,50 @@ Em seguida edite o arquivo C:\xampp\apache\conf\extra\httpd-vhosts.conf
 COMPOSER
 
 Para iniciar o projeto com o composer
+
 - abra uma pasta
 - crie o arquivo composer.json
-- edita o arquvio como o exemplo abaixo, alterando as linhas necessarias
+- edita o arquvio como o exemplo abaixo, alterando as linhas conforme necessidade
 
-{
-    "name": "leohenri/ecommerce",
-    "authors": [
-        {
-            "name": "eCommerce",
-            "email": "leohenribar2@gmail.com"
-        }
-    ],
-    "require": {
-    	"phpmailer/phpmailer":"5.2.22",
-    	"slim/slim":"2.0",
-    	"rain/raintpl":"3.0.0"
-    },
-    "autoload": {
-        "psr-4": {
-            "": "vendor\\hcodebr\\php-classes\\src"
-        }
-    }
-}
-
+		{
+		    "name": "leohenri/ecommerce",
+		    "authors": [
+		        {
+		            "name": "eCommerce",
+		            "email": "leohenribar2@gmail.com"
+		        }
+		    ],
+		    "require": {
+		    	"phpmailer/phpmailer":"5.2.22",
+		    	"slim/slim":"2.0",
+		    	"rain/raintpl":"3.0.0"
+		    },
+		    "autoload": {
+		        "psr-4": {
+		            "": "vendor\\hcodebr\\php-classes\\src"
+		        }
+		    }
+		}
 
 - Clique com botão direito
 - Em seguinda clica em Git Bash Here
 - Digita o comando composer install ou update
+
+
+*************************************************************************
+
+
+Adicionar uma class dentro da pasta vendor
+
+- Neste caso deve avisar ao composer que foi inserida uma pasta e deve digitar o seguinte comando na pasta raiz do site
+	composer dump-autoload
+
+
+
+########################################################################################################################
+
+
+GITHUB
 
 Para subir o projeto para Git Hub, crie um repository
 - Acesse o site https://github.com/
@@ -70,7 +88,49 @@ Para subir o projeto para Git Hub, crie um repository
 Feito isso agora abre a pasta local do projeto 
 - Clique com botão direito
 - Em seguinda clica em Git Bash Here
-- 
+- Na tela de comando digite "git init" par a inicializar o nome projeto
+	$ git init
+- Depois digite o comando (url do git hub disponivel ao criar respositorio)
+	git remote add origin https://github.com/leohenri/ecommerce.git 
+- Em seguinte digite adicionar tudo que foi incluido, alterado e excluido para depois ser enviado para git hub
+	git commit -all
+- Criar o pacote de atualizações para empocatar no Staging Area ou area temporaria e inclui uma mensagem da para a versão que será carregada no Git Hub. 
+	git commit -m "Aqui a Mensagem sobre as atualizações do sistema e da versão."
+- Por fim digitar o seguinte comando para subir para o Git
+	git push origin master
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Exemplo no Git Hub assim que é criado o repository
+
+Or create a new repository on the command line
+echo "# ecommerce" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/leohenri/ecommerce.git
+git push -u origin main
+
+Or push an existing repository from the command line
+git remote add origin https://github.com/leohenri/ecommerce.git
+git branch -M main
+git push -u origin main
+
+
 
 
 
