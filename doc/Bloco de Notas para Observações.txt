@@ -1,0 +1,76 @@
+CRIAR DOMINIO 
+
+Para criar um dominio no servidor local.
+
+- Incluir o host na ultima linha do arquivo C:\Windows\System32\drivers\etc\hosts.conf
+
+127.0.0.1       	localhost
+::1             	localhost
+127.0.0.1 			novodominioaqui.com.br
+
+
+Em seguida edite o arquivo C:\xampp\apache\conf\extra\httpd-vhosts.conf
+
+- Incluir as seguinte linhas de código, alterando as linhas conforme a necessidade
+
+<VirtualHost *:80>
+    ServerAdmin webmaster@dummy-host2.example.com
+    DocumentRoot "C:/xampp/htdocs/phsb"
+    ServerName phsb.com.br
+    ErrorLog "logs/dummy-host2.example.com-error.log"
+    CustomLog "logs/dummy-host2.example.com-access.log" common
+    <Directory "C:/xampp/htdocs/phsb">
+        Order allow,deny
+        Allow from all
+        Require all granted
+    </Directory>
+</VirtualHost>
+
+########################################################################################################################
+
+COMPOSER
+
+Para iniciar o projeto com o composer
+- abra uma pasta
+- crie o arquivo composer.json
+- edita o arquvio como o exemplo abaixo, alterando as linhas necessarias
+
+{
+    "name": "leohenri/ecommerce",
+    "authors": [
+        {
+            "name": "eCommerce",
+            "email": "leohenribar2@gmail.com"
+        }
+    ],
+    "require": {
+    	"phpmailer/phpmailer":"5.2.22",
+    	"slim/slim":"2.0",
+    	"rain/raintpl":"3.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "vendor\\hcodebr\\php-classes\\src"
+        }
+    }
+}
+
+
+- Clique com botão direito
+- Em seguinda clica em Git Bash Here
+- Digita o comando composer install ou update
+
+Para subir o projeto para Git Hub, crie um repository
+- Acesse o site https://github.com/
+- Logar se ainda não legado
+- Clica em New, se não tiver ache o link Repositories
+- Dê o nome que ficará assim: leohenribar/nomeRespositorio
+- Clica logo abaixo em Create Respository
+
+Feito isso agora abre a pasta local do projeto 
+- Clique com botão direito
+- Em seguinda clica em Git Bash Here
+- 
+
+
+
