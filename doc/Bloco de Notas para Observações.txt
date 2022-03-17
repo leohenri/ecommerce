@@ -53,7 +53,7 @@ Para iniciar o projeto com o composer
 		    },
 		    "autoload": {
 		        "psr-4": {
-		            "": "vendor\\hcodebr\\php-classes\\src"
+		            "Hcode\\": "vendor\\hcodebr\\php-classes\\src"
 		        }
 		    }
 		}
@@ -93,10 +93,15 @@ Feito isso agora abre a pasta local do projeto
 - Depois digite o comando (url do git hub disponivel ao criar respositorio)
 	git remote add origin https://github.com/leohenri/ecommerce.git 
 - Em seguinte digite adicionar tudo que foi incluido, alterado e excluido para depois ser enviado para git hub
-	git commit -all
+	git add -all
 - Criar o pacote de atualizações para empocatar no Staging Area ou area temporaria e inclui uma mensagem da para a versão que será carregada no Git Hub. 
 	git commit -m "Aqui a Mensagem sobre as atualizações do sistema e da versão."
 - Por fim digitar o seguinte comando para subir para o Git
+	git push origin master
+
+- Sempre que concluir atualizacoes dê os seguintes comandos
+	git add --all
+	git commit -m "mensagem"
 	git push origin master
 
 
