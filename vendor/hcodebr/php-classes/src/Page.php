@@ -11,13 +11,15 @@ class Page {
 	private $options = [];
 
 	private $defaults = [
+		"header"=>true,
+		"footer"=>true,
 		"data"=>[]
 	];
 
 	public function __construct($options = array(), $tpl_dir = "/views/")
 	{
 		//Importante a ordem dos arrays. Já que o ultimo array informado terá prevalencia sobre os anterioes
-		$this->options = array_merge($this->defaults, $this->options);
+		$this->options = array_merge($this->defaults, $options);
 
 		$config = array(
 			"tpl_dir"       => $_SERVER['DOCUMENT_ROOT'].$tpl_dir,
@@ -31,7 +33,12 @@ class Page {
 
 		$this->setData($this->options['data']);
 
-		$this->tpl->draw("header");
+		//Se pagina login, por exemplo, virá como false a variavel array header e não mostrará a pagina header
+		if($this->options['header'] === true)
+		{
+			$this->tpl->draw("header");
+		}
+
 	}
 
 
@@ -60,8 +67,12 @@ class Page {
 	public function __destruct()
 	{
 
-		$this->tpl->draw("footer");
-
+		//Se pagina login, por exemplo, virá como false a variavel array footer e não mostrará a pagina footer
+		if($this->options['footer'] === true)
+		{
+			$this->tpl->draw("footer");
+		}
+		
 	}
 
 }

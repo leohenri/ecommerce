@@ -1,16 +1,18 @@
 <?php 
-
+session_start();
 require_once("vendor/autoload.php");
 
 //Namespace do vendor
 use \Slim\Slim;
 use \Hcode\Page;
 use \Hcode\PageAdmin;
+use \Hcode\Model\User;
 
 //Criar as routas
 $app = new Slim();
 
 $app->config('debug', true);
+
 
 $app->get('/', function() {
 
@@ -18,38 +20,50 @@ $app->get('/', function() {
     
 	$page->setTpl('index');
 
-	/*
-		$sql = new Hcode\DB\Sql();
-
-
-		$results = $sql->select('SELECT * FROM tb_users');
-
-		echo json_encode($results);
-	*/
-
-
-	//A pagina footer é carregada no destruct da class Page
 });
 
 
 
-$app->get('/admin', function() {
+$app->get('/admin/', function() {
+
+	User::verifyLogin();
 
 	$page = new PageAdmin();
     
 	$page->setTpl('index');
-
-	/*
-		$sql = new Hcode\DB\Sql();
-
-
-		$results = $sql->select('SELECT * FROM tb_users');
-
-		echo json_encode($results);
-	*/
+	
+});
 
 
-	//A pagina footer é carregada no destruct da class Page
+$app->get('/admin/login', function() {
+
+	$page = new PageAdmin([
+		"header"=>false,
+		"footer"=>false
+	]);
+    
+	$page->setTpl('login');
+
+});
+
+$app->post('/admin/login', function() {
+
+	User::login($_POST['login'], $_POST['password']);
+
+	header("Location: /admin");
+
+	exit;
+
+});
+
+$app->get('/admin/logout', function() {
+
+	User::logout();
+
+	header("Location: /admin/login");
+
+	exit;
+
 });
 
 
