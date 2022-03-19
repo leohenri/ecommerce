@@ -29,7 +29,7 @@ class Model{
 
 	public function setData($data = array())
 	{
-
+		//Dinamicamente chama os methods set de todos os campos e atribui já os valores na variavel $values que é um array
 		foreach ($data as $key => $value) {
 
 			$this->{"set".$key}($value);
@@ -39,7 +39,7 @@ class Model{
 	}
 
 	public function getValues(){
-
+		//Array com todos os valores setados
 		return $this->values;
 
 	}
