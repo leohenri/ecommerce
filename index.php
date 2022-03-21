@@ -7,6 +7,7 @@ use \Slim\Slim;
 use \Hcode\Page;
 use \Hcode\PageAdmin;
 use \Hcode\Model\User;
+use \Hcode\Model\Category;
 
 //Criar as routas
 $app = new Slim();
@@ -244,7 +245,7 @@ $app->get('/admin/', function() {
  * Route: /admin/users
  * @method GET
  * @param Sem parametros
- * A classe PageAdmin monta o layout setando os dados de todos os usuarios recebidos do banco na $users
+ * A classe PageAdmin monta o layout listando todos os usuarios recebidos do banco
  */
 $app->get('/admin/users', function() {
 
@@ -307,7 +308,7 @@ $app->post('/admin/users/create', function() {
  * Route: /admin/users/:iduser/delete
  * @method GET
  * @param $iduser 
- * A classe ....
+ * A classe que disable o user apagando a senha cadastrada
  */
 $app->get("/admin/users/:iduser/delete", function($iduser){
 
@@ -385,6 +386,134 @@ $app->post("/admin/users/:iduser", function($iduser){
 
 
 
+
+//===================================== INICIO DAS EXECUÇÃO DO CRUD CLASS Categories =====================================//
+
+
+/**
+ * Route: /admin/categories
+ * @method GET
+ * @param Sem parametros
+ * A classe PageAdmin monta o layout listando todas as categorias do banco
+ */
+$app->get("/admin/categories", function(){
+
+	User::verifyLogin();
+
+	$category = Category::listAll();
+
+	$page = new PageAdmin();
+
+	$page->setTpl("/admin/categories", array(
+		"categories"=>$category
+	));
+});
+
+
+
+/**
+ * Route: /admin/categories/create
+ * @method GET
+ * @param Sem parametros
+ * Monta a página para cadastrar categoria
+ */
+$app->get("/admin/categories/create", function(){
+
+	User::verifyLogin();
+
+	$page = new PageAdmin();
+
+	$page->setTpl("/admin/categories-create");
+});
+
+/**
+ * Route: /admin/categories/create
+ * @method POST
+ * @param Sem parametros
+ * Monta a página para cadastrar categoria
+ */
+$app->post("/admin/categories/create", function(){
+
+	User::verifyLogin();
+
+	$category = new Category();
+
+	$category->setData($_POST);
+
+	$results = $category->save();
+
+	header("Location: /admin/categories");
+
+	exit;
+});
+
+/**
+ * Route: /admin/categories/create
+ * @method POST
+ * @param Sem parametros
+ * Monta a página para cadastrar categoria
+ */
+$app->get("/admin/categories/:idcategory/delete", function($idcategory){
+
+	User::verifyLogin();
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$category->delete();
+
+	header("Location: /admin/categories");
+
+	exit;
+});
+
+/**
+ * Route: /admin/categories/:idcategory
+ * @method GET
+ * @param idcategory
+ * Monta a página para alterar categoria
+ */
+$app->get("/admin/categories/:idcategory", function($idcategory){
+
+	User::verifyLogin();
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$page = new PageAdmin();
+
+	$page->setTpl("/admin/categories-update", array(
+		"category"=>$category->getValues()
+	));
+});
+
+/**
+ * Route: /admin/categories/create
+ * @method POST
+ * @param Sem parametros
+ * Monta a página para cadastrar categoria
+ */
+$app->post("/admin/categories/:idcategory", function($idcategory){
+
+	User::verifyLogin();
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$category->setData($_POST);
+
+	$results = $category->save();
+
+	header("Location: /admin/categories");
+
+	exit;
+});
+
+
+//===================================== FIM DAS EXECUÇÃO DO CRUD CLASS Categories =====================================//
 
 
 
