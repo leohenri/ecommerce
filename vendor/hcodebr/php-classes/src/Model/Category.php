@@ -10,7 +10,7 @@ class Category extends Model{
 
 	
 
-	public static function listAll()
+	public static function listAll($where = 1)
 	{
 
 		$sql = new Sql();
@@ -20,6 +20,10 @@ class Category extends Model{
 				*
 			FROM
 				tb_categories
+			WHERE
+				$where
+			ORDER BY
+				disablecategory ASC, descategory
 		";
 
 		return $sql->select($instruction);
@@ -49,6 +53,8 @@ class Category extends Model{
 
 		$this->setData($result[0]);
 
+		Category::updateFile();
+
 	}
 
 
@@ -70,6 +76,31 @@ class Category extends Model{
 		);
 		$sql->query($instruction, $values);
 
+		Category::updateFile();
+
+	}
+
+
+
+	public function enable()
+	{
+
+		$sql = new Sql();
+
+		//Instrução que executará uma procedure já configurado no banco
+		$instruction = "
+			CALL 
+				sp_categories_enable(
+					:idcategory
+				)
+		";
+
+		$values = array(
+			":idcategory"=>$this->getidcategory()
+		);
+		$sql->query($instruction, $values);
+
+		Category::updateFile();
 
 	}
 
@@ -101,6 +132,23 @@ class Category extends Model{
 	}
 
 
+	public static function updateFile()
+	{
+
+		$categories = Category::listAll("disablecategory IS NULL");
+
+		$html = [];
+
+		foreach ($categories as $row) {
+			$tag = "<li><a href='/categories/$row[idcategory]'>$row[descategory]</a></li>";
+			array_push($html, $tag);
+		}
+
+		$file = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'categories-menu.html';
+		
+		file_put_contents($file, implode($html));
+
+	}
 
 }
 

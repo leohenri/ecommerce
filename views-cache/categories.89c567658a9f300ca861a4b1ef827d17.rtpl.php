@@ -29,7 +29,7 @@
                     <th style="width: 10px">#</th>
                     <th>Nome da Categoria</th>
                     <th>Atualizado em</th>
-                    <th style="width: 140px">&nbsp;</th>
+                    <th style="width: 200px">&nbsp;</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -41,7 +41,20 @@
                     <td><?php if( $value1["dtlastupdate"]!=NULL ){ ?><?php echo htmlspecialchars( $value1["dtlastupdate"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php }else{ ?><?php echo htmlspecialchars( $value1["dtregister"], ENT_COMPAT, 'UTF-8', FALSE ); ?><?php } ?></td>
                     <td>
                       <a href="/admin/categories/<?php echo htmlspecialchars( $value1["idcategory"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i> Editar</a>
-                      <a href="/admin/categories/<?php echo htmlspecialchars( $value1["idcategory"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/delete" onclick="return confirm('Deseja realmente excluir este registro?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Excluir</a>
+                      
+                      <?php if( $value1["disablecategory"]==1 ){ ?>
+
+                      
+                      <a href="/admin/categories/<?php echo htmlspecialchars( $value1["idcategory"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/enable" onclick="return confirm('Essa categoria será reativada. Confirma?')" class="btn btn-success btn-xs"><i class="fa fa-trash"></i> Reativar</a>
+                      
+                      <?php }else{ ?>
+
+
+                      <a href="/admin/categories/<?php echo htmlspecialchars( $value1["idcategory"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/delete" onclick="return confirm('Deseja realmente DESATIVAR esta categoria? Você confirma?')" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Desativar</a>
+                      
+                      <?php } ?>
+
+
                     </td>
                   </tr>
                   <?php } ?>

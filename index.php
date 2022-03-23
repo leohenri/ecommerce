@@ -17,7 +17,7 @@ $app->config('debug', true);
 /****************************************************************************************************************************
  * 
  * FRONTEND
- * 
+ * @classe Page()
  ***************************************************************************************************************************/
 
 
@@ -38,11 +38,26 @@ $app->get('/', function() {
 
 
 
+$app->get("/categories/:idcategory", function($idcategory){
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$page = new Page();
+
+	$page->setTpl("/category", array(
+		"category"=>$category->getValues(),
+		"products"=>array("desproduct"=>"leandro")
+	));
+});
+
 
 
 /****************************************************************************************************************************
  *
  * BACKEND
+ * @class PageAdmin()
  * 
  ***************************************************************************************************************************/
 
@@ -448,7 +463,7 @@ $app->post("/admin/categories/create", function(){
 });
 
 /**
- * Route: /admin/categories/create
+ * Route: /admin/categories/delete
  * @method POST
  * @param Sem parametros
  * Monta a página para cadastrar categoria
@@ -467,6 +482,29 @@ $app->get("/admin/categories/:idcategory/delete", function($idcategory){
 
 	exit;
 });
+
+
+/**
+ * Route: /admin/categories/enable
+ * @method POST
+ * @param Sem parametros
+ * Monta a página para cadastrar categoria
+ */
+$app->get("/admin/categories/:idcategory/enable", function($idcategory){
+
+	User::verifyLogin();
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$category->enable();  
+
+	header("Location: /admin/categories");
+
+	exit;
+});
+
 
 /**
  * Route: /admin/categories/:idcategory
@@ -511,6 +549,10 @@ $app->post("/admin/categories/:idcategory", function($idcategory){
 
 	exit;
 });
+
+
+
+
 
 
 //===================================== FIM DAS EXECUÇÃO DO CRUD CLASS Categories =====================================//
