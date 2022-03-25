@@ -97,6 +97,20 @@
 <!-- AdminLTE App -->
 <script src="/res/admin/dist/js/app.min.js"></script>
 
+<!-- jQuery sticky menu -->
+<script src="res/site/js/owl.carousel.min.js"></script>
+<script src="res/site/js/jquery.sticky.js"></script>
+
+ <!-- jQuery easing -->
+<script src="/res/site/js/jquery.easing.1.3.min.js"></script>
+
+<!-- Main Script -->
+<script src="/res/site/js/main.js"></script>
+
+<!-- Slider -->
+<script type="text/javascript" src="/res/site/js/bxslider.min.js"></script>
+<script type="text/javascript" src="/res/site/js/script.slider.js"></script>
+
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. Slimscroll is required when using the

@@ -22,6 +22,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
   -->
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/res/site/css/owl.carousel.css">
+  <link rel="stylesheet" href="/res/site/css/style.css">
+  <link rel="stylesheet" href="/res/site/css/responsive.css">
+  
   <link rel="stylesheet" href="/res/admin/dist/css/skins/skin-blue.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -259,7 +265,7 @@ desired effect
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="/admin/users"><i class="fa fa-users"></i> <span>Usuários</span></a></li>
         <li><a href="/admin/categories"><i class="fa fa-users"></i> <span>Categorias</span></a></li>
-        
+        <li><a href="/admin/products"><i class="fa fa-users"></i> <span>Produtos</span></a></li>
 
         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
         <li class="treeview">

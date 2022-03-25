@@ -8,6 +8,7 @@ use \Hcode\Page;
 use \Hcode\PageAdmin;
 use \Hcode\Model\User;
 use \Hcode\Model\Category;
+use \Hcode\Model\Product;
 
 //Criar as routas
 $app = new Slim();
@@ -18,6 +19,7 @@ $app->config('debug', true);
  * 
  * FRONTEND
  * @classe Page()
+ * 
  ***************************************************************************************************************************/
 
 
@@ -556,6 +558,209 @@ $app->post("/admin/categories/:idcategory", function($idcategory){
 
 
 //===================================== FIM DAS EXECUÇÃO DO CRUD CLASS Categories =====================================//
+
+
+
+
+
+
+
+
+
+
+
+
+//===================================== INICIO DAS EXECUÇÃO DO CRUD CLASS Products =====================================//
+
+
+/**
+ * Route: /admin/produts
+ * @method GET
+ * @param Sem parametros
+ * A classe PageAdmin monta o layout listando todas as categorias do banco
+ */
+$app->get("/admin/products", function(){
+
+	User::verifyLogin();
+
+	$product = Product::listAll();
+
+	$page = new PageAdmin();
+
+	$page->setTpl("/admin/products", array(
+		"products"=>$product
+	));
+});
+
+
+
+/**
+ * Route: /admin/products/create
+ * @method GET
+ * @param Sem parametros
+ * Monta a página para cadastrar categoria
+ */
+$app->get("/admin/products/create", function(){
+
+	User::verifyLogin();
+
+	$page = new PageAdmin();
+
+	$page->setTpl("/admin/products-create");
+});
+
+/**
+ * Route: /admin/products/create
+ * @method POST
+ * @param Sem parametros
+ * Monta a página para cadastrar categoria
+ */
+$app->post("/admin/products/create", function(){
+
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->setData($_POST);
+
+	$results = $product->save();
+
+	header("Location: /admin/products");
+
+	exit;
+});
+
+/**
+ * Route: /admin/products/delete
+ * @method POST
+ * @param Sem parametros
+ * Monta a página para cadastrar categoria
+ */
+$app->get("/admin/products/:idproduct/delete", function($idproduct){
+
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$product->delete();
+
+	header("Location: /admin/products");
+
+	exit;
+});
+
+
+/**
+ * Route: /admin/products/:idproduct
+ * @method GET
+ * @param idproduct
+ * Monta a página para alterar categoria
+ */
+$app->get("/admin/products/:idproduct", function($idproduct){
+
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$page = new PageAdmin();
+
+	$page->setTpl("/admin/products-update", array(
+		"product"=>$product->getValues()
+	));
+});
+
+/**
+ * Route: /admin/products/create
+ * @method POST
+ * @param Sem parametros
+ * Monta a página para cadastrar categoria
+ */
+$app->post("/admin/products/:idproduct", function($idproduct){
+
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$product->setData($_POST);
+
+	$results = $product->save();
+
+	header("Location: /admin/products");
+
+	exit;
+});
+
+
+
+
+/**
+ * Route: /admin/products/:idproduct
+ * @method GET
+ * @param idproduct
+ * Monta a página para alterar categoria
+ */
+$app->get("/admin/products/photos/:idproduct", function($idproduct){
+
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$photos = $product->getPhotos((int)$idproduct);
+
+	$page = new PageAdmin();
+
+	$page->setTpl("/admin/products-photos", array(
+		"product"=>$product->getValues(),
+		"photos"=>$photos
+	));
+});
+
+
+
+$app->post("/admin/products/photos/:idproduct", function($idproduct){
+
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->get((int)$idproduct);
+
+	$file = isset($_FILES['file']) ? $_FILES['file'] : NULL;
+
+	$product->addPhoto($file);
+
+	header("Location: /admin/products/photos/$idproduct");
+
+	exit;
+});
+
+$app->get("/admin/products/photos/:idproduct/:idphotos/delete", function($idproduct, $idphotos){
+
+	User::verifyLogin();
+
+	$product = new Product();
+
+	$product->deletePhoto($idphotos);
+
+	header("Location: /admin/products/photos/$idproduct");
+
+	exit;
+});
+
+
+
+//===================================== FIM DAS EXECUÇÃO DO CRUD CLASS Products =====================================//
+
+
+
 
 
 
