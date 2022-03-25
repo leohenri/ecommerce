@@ -39,6 +39,30 @@ class Product extends Model{
 
 	}
 
+	public static function listAllProdPhotos($where = 1)
+	{
+
+		$sql = new Sql();
+
+		$instruction = "
+			SELECT 
+				*
+			FROM
+				tb_products a
+					INNER JOIN
+				tb_photos b USING (idproduct)
+			WHERE
+				$where
+			GROUP BY
+				b.idproduct
+			ORDER BY
+				desproduct
+		";
+
+		return $sql->select($instruction);
+
+	}
+
 	public function save()
 	{
 
@@ -208,6 +232,7 @@ class Product extends Model{
 		}else{
 			return array(
 				array(
+					"idphotos"=>0,
 					"desphoto"=>'padrao.jpg'
 				)
 			);
