@@ -49,6 +49,8 @@ class Sql {
 
 		$stmt->execute();
 
+		var_dump($stmt->errorInfo());
+
 	}
 
 	public function select($rawQuery, $params = array()):array

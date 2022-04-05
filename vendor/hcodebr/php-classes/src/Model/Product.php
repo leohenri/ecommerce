@@ -35,9 +35,23 @@ class Product extends Model{
 				desproduct
 		";
 
-		return $sql->select($instruction);
+		$results = $sql->select($instruction);
+
+
+		//Verifica em quais Categorias os produtos foram incluidos
+		foreach ($results as $key => $product) {
+
+			$categories = Product::getCategories($product['idproduct']);
+
+			$results[$key] = array_merge($product, $categories);
+		
+		}
+
+		return $results;
 
 	}
+
+
 
 	public static function listAllProdPhotos($where = 1)
 	{
@@ -62,6 +76,38 @@ class Product extends Model{
 		return $sql->select($instruction);
 
 	}
+
+
+	public static function listAllProductCategory($idCategory)
+	{
+
+		$sql = new Sql();
+
+		$instruction = "
+			SELECT 
+				*
+			FROM
+				tb_products a
+					LEFT JOIN
+				tb_categoriesproducts b ON a.idProduct = b.idProduct
+					LEFT JOIN
+				tb_photos c ON b.idProduct = c.idProduct 
+			WHERE
+				b.idcategory = :idcategory
+			GROUP BY
+				c.idproduct
+		";
+
+		$param = array(
+			':idcategory'=>$idCategory
+		);
+
+		$results = $sql->select($instruction,$param);
+
+		return $results;
+
+	}
+
 
 	public function save()
 	{
@@ -110,10 +156,11 @@ class Product extends Model{
 
 		//Instrução que executará uma procedure já configurado no banco
 		$instruction = "
-			CALL 
-				sp_products_delete(
-					:idproduct
-				)
+			DELETE FROM
+				tb_products
+			WHERE
+				idproduct = :idproduct
+			LIMIT 1
 		";
 
 		$values = array(
@@ -232,7 +279,7 @@ class Product extends Model{
 		}else{
 			return array(
 				array(
-					"idphotos"=>0,
+					"idphoto"=>1,
 					"desphoto"=>'padrao.jpg'
 				)
 			);
@@ -241,7 +288,7 @@ class Product extends Model{
 	}
 
 
-	public function deletePhoto($idphotos)
+	public function deletePhoto($idphoto)
 	{
 
 		$sql = new Sql();
@@ -250,12 +297,12 @@ class Product extends Model{
 			DELETE FROM
 				tb_photos
 			WHERE
-				idphotos = :idphotos
+				idphoto = :idphoto
 			LIMIT 1
 		";
 
 		$values = array(
-			":idphotos"=>$idphotos
+			":idphoto"=>$idphoto
 		);
 		
 		$result = $sql->select($instruction, $values);
@@ -263,7 +310,34 @@ class Product extends Model{
 	}
 
 
+	public static function getCategories($idProduct)
+	{
+		
+		$sql = new Sql();
 
+		$instruction = "
+			SELECT
+				GROUP_CONCAT(descategory) AS descategory
+			FROM
+				tb_products a
+					LEFT JOIN
+				tb_categoriesproducts b USING (idproduct)
+					LEFT JOIN
+				tb_categories c USING (idcategory)
+			WHERE
+				idproduct = :idproduct
+			GROUP BY
+				b.idproduct
+		";
+		$param = array(
+			":idproduct"=>$idProduct
+		);
+
+		$result = $sql->select($instruction, $param);
+
+		return $result[0];
+
+	}
 
 
 }

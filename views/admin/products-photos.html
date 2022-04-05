@@ -51,8 +51,8 @@
 
                     {loop="$photos"}
                     <li>
-                    <a href="/admin/products/photos/{$product.idproduct}/{$value.idphotos}/delete" onclick="return confirm('Deseja realmente excluir esta imagem?')" class="thumbnail">
-                    <img src="/res/site/img/products/{$value.desphoto}" stalt="Slide" style="height:250px; width:auto !important;">
+                    <a href="/admin/products/photos/{$product.idproduct}/{$value.idphoto}/delete" onclick="return confirm('Deseja realmente excluir esta imagem?')" class="thumbnail">
+                        <img src="/res/site/img/products/{$value.desphoto}" stalt="Slide" style="height:250px; width:auto !important;">
                     </a>
                     </li>
                     {/loop}

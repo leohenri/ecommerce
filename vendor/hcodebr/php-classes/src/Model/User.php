@@ -172,21 +172,23 @@ class User extends Model{
 	{
 
 		$sql = new Sql();
-
-		//Instrução que executará uma procedure já configurado no banco
+		
 		$instruction = "
-			CALL 
-				sp_users_disable(
-					:iduser
-				)
+			UPDATE 
+				tb_users
+			SET
+				despassword = CONCAT('Disable in ', NOW()),
+				userdisable = 1
+			WHERE
+				iduser = :iduser
+			LIMIT 1
 		";
 
 		$values = array(
 			":iduser"=>$this->getiduser()
 		);
-		$result = $sql->select($instruction, $values);
-
-		$this->setData($result[0]);
+		
+		$sql->select($instruction, $values);
 
 	}
 

@@ -51,8 +51,8 @@
 
                     <?php $counter1=-1;  if( isset($photos) && ( is_array($photos) || $photos instanceof Traversable ) && sizeof($photos) ) foreach( $photos as $key1 => $value1 ){ $counter1++; ?>
                     <li>
-                    <a href="/admin/products/photos/<?php echo htmlspecialchars( $product["idproduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php echo htmlspecialchars( $value1["idphotos"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/delete" onclick="return confirm('Deseja realmente excluir esta imagem?')" class="thumbnail">
-                    <img src="/res/site/img/products/<?php echo htmlspecialchars( $value1["desphoto"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" stalt="Slide" style="height:250px; width:auto !important;">
+                    <a href="/admin/products/photos/<?php echo htmlspecialchars( $product["idproduct"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/<?php echo htmlspecialchars( $value1["idphoto"], ENT_COMPAT, 'UTF-8', FALSE ); ?>/delete" onclick="return confirm('Deseja realmente excluir esta imagem?')" class="thumbnail">
+                        <img src="/res/site/img/products/<?php echo htmlspecialchars( $value1["desphoto"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" stalt="Slide" style="height:250px; width:auto !important;">
                     </a>
                     </li>
                     <?php } ?>

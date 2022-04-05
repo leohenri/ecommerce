@@ -52,11 +52,13 @@ $app->get("/categories/:idcategory", function($idcategory){
 
 	$category->get((int)$idcategory);
 
+	$products = Product::listAllProductCategory($idcategory);
+
 	$page = new Page();
 
 	$page->setTpl("/category", array(
 		"category"=>$category->getValues(),
-		"products"=>array("desproduct"=>"leandro")
+		"products"=>$products
 	));
 });
 
@@ -276,7 +278,7 @@ $app->get('/admin/users', function() {
 	User::verifyLogin();
 
 	$users = User::listAll();
-
+	
 	$page = new PageAdmin();
     
 	$page->setTpl('users', array(
@@ -559,6 +561,55 @@ $app->post("/admin/categories/:idcategory", function($idcategory){
 	exit;
 });
 
+
+
+
+$app->get("/admin/categories/:idcategory/products", function($idcategory){
+
+	User::verifyLogin();
+
+	$category = new Category();
+
+	$category->get((int)$idcategory);
+
+	$page = new PageAdmin();
+
+	$page->setTpl("/admin/categories-products", array(
+		"category"=>$category->getValues(),
+		"productsRelated"=>$category->getProducts(),
+		"productsNotRelated"=>$category->getProducts(false)
+
+
+	));
+});
+
+
+$app->get("/admin/categories/:idcategory/products/:idproduct/add", function($idcategory, $idproduct){
+
+	User::verifyLogin();
+
+	$category = new Category();
+
+	Category::addProductCategory($idcategory, $idproduct);
+
+	header("Location: /admin/categories/$idcategory/products");
+
+	exit;
+});
+
+
+$app->get("/admin/categories/:idcategory/products/:idproduct/remove", function($idcategory, $idproduct){
+
+	User::verifyLogin();
+
+	$category = new Category();
+
+	Category::removeProductCategory($idcategory, $idproduct);
+
+	header("Location: /admin/categories/$idcategory/products");
+
+	exit;
+});
 
 
 
