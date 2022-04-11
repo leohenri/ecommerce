@@ -49,7 +49,7 @@ class Sql {
 
 		$stmt->execute();
 
-		var_dump($stmt->errorInfo());
+		//var_dump($stmt->errorInfo());
 
 	}
 
